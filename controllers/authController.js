@@ -42,7 +42,7 @@ export async function signIn(req, res) {
         token,
       ]);
 
-      res.send(token);
+      res.status(200).send(token);
     } else {
       return res.sendStatus(401);
     }
