@@ -22,6 +22,7 @@ export async function postUrl(req, res) {
 
 export async function getUrl(req, res) {
   const { id } = req.params;
+
   try {
     const result = await db.query(
       `SELECT id, "shortUrl", url FROM urls WHERE id=$1`,
