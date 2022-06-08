@@ -1,7 +1,7 @@
 import { Router } from "express";
 import {
   postUrl,
-  // getUserUrls,
+  getUrl,
   // redirectToUrl,
   // deleteUrl,
 } from "./../controllers/urlsController.js";
@@ -12,7 +12,7 @@ const urlsRouter = Router();
 
 urlsRouter.post("/urls/shorten", tokenValidator, urlValidator, postUrl);
 
-// urlsRouter.get("/urls/:id", getUserUrls);
+urlsRouter.get("/urls/:id", getUrl);
 
 // urlsRouter.get("/urls/open/:shortUrl", redirectToUrl);
 
