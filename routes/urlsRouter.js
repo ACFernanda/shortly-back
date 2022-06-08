@@ -2,7 +2,7 @@ import { Router } from "express";
 import {
   postUrl,
   getUrl,
-  // redirectToUrl,
+  openUrl,
   // deleteUrl,
 } from "./../controllers/urlsController.js";
 import { tokenValidator } from "../middlewares/tokenValidator.js";
@@ -14,7 +14,7 @@ urlsRouter.post("/urls/shorten", tokenValidator, urlValidator, postUrl);
 
 urlsRouter.get("/urls/:id", getUrl);
 
-// urlsRouter.get("/urls/open/:shortUrl", redirectToUrl);
+urlsRouter.get("/urls/open/:shortUrl", openUrl);
 
 // urlsRouter.delete("/urls/:id", deleteUrl);
 

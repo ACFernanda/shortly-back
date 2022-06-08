@@ -40,3 +40,29 @@ export async function getUrl(req, res) {
     res.status(500).send("Ocorreu um erro ao buscar a URL!");
   }
 }
+
+export async function openUrl(req, res) {
+  const { shortUrl } = req.params;
+
+  try {
+    const result = await db.query(`SELECT * FROM urls WHERE "shortUrl"=$1`, [
+      shortUrl,
+    ]);
+    const url = result.rows[0].url;
+    const visits = result.rows[0].visits;
+
+    if (!url) {
+      return res.sendStatus(404);
+    }
+
+    await db.query(`UPDATE urls SET visits=$1 WHERE "shortUrl"=$2`, [
+      visits + 1,
+      shortUrl,
+    ]);
+
+    res.redirect(url);
+  } catch (e) {
+    console.log(e);
+    res.status(500).send("Ocorreu um erro ao buscar a URL!");
+  }
+}
