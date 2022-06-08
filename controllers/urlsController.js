@@ -48,12 +48,13 @@ export async function openUrl(req, res) {
     const result = await db.query(`SELECT * FROM urls WHERE "shortUrl"=$1`, [
       shortUrl,
     ]);
-    const url = result.rows[0].url;
-    const visits = result.rows[0].visits;
 
-    if (!url) {
+    if (!result.rows.length) {
       return res.sendStatus(404);
     }
+
+    const url = result.rows[0].url;
+    const visits = result.rows[0].visits;
 
     await db.query(`UPDATE urls SET visits=$1 WHERE "shortUrl"=$2`, [
       visits + 1,
