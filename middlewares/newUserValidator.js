@@ -1,6 +1,6 @@
 import newUserSchema from "../schemas/newUserSchema.js";
 
-export function newUserValidator(req, res) {
+export function newUserValidator(req, res, next) {
   const newUser = req.body;
   const validation = newUserSchema.validate(newUser);
   if (validation.error) {
