@@ -34,3 +34,24 @@ export async function getUser(req, res) {
     res.status(500).send("Ocorreu um erro ao buscar usuário!");
   }
 }
+
+export async function getTopUsers(req, res) {
+  try {
+    const result = await db.query(
+      `
+      SELECT users.id, users.name, COUNT(urls.url) AS "linksCount", SUM(COALESCE(urls.visits, 0)) AS "visitCount"
+      FROM users
+      LEFT JOIN urls ON users.id = urls."userId"
+      GROUP BY users.id
+      ORDER BY "visitCount" DESC
+      LIMIT 10;
+    `
+    );
+    const topUsers = result.rows;
+
+    res.status(200).send(topUsers);
+  } catch (e) {
+    console.log(e);
+    res.status(500).send("Ocorreu um erro ao buscar usuários!");
+  }
+}
