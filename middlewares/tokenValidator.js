@@ -13,7 +13,7 @@ export async function tokenValidator(req, res, next) {
       `SELECT * FROM sessions WHERE token='${userToken}'`
     );
     if (!session.rows.length) {
-      return res.status(401).send("aqui");
+      return res.sendStatus(401);
     }
 
     res.locals.userId = session.rows[0].userId;

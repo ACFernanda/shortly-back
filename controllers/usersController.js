@@ -2,6 +2,11 @@ import db from "./../db.js";
 
 export async function getUser(req, res) {
   const { id } = req.params;
+  const { userId } = res.locals;
+
+  if (id != userId) {
+    return res.status(401).send("aqui");
+  }
 
   try {
     const resultUser = await db.query(
