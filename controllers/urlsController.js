@@ -64,7 +64,7 @@ export async function openUrl(req, res) {
     res.redirect(url);
   } catch (e) {
     console.log(e);
-    res.status(500).send("Ocorreu um erro ao buscar a URL!");
+    res.status(500).send("Ocorreu um erro ao abrir a URL!");
   }
 }
 
@@ -91,6 +91,6 @@ export async function deleteUrl(req, res) {
     res.sendStatus(204);
   } catch (e) {
     console.log(e);
-    res.status(500).send("Ocorreu um erro ao buscar a URL!");
+    res.status(500).send("Ocorreu um erro ao deletar a URL!");
   }
 }
