@@ -3,7 +3,7 @@ import {
   postUrl,
   getUrl,
   openUrl,
-  // deleteUrl,
+  deleteUrl,
 } from "./../controllers/urlsController.js";
 import { tokenValidator } from "../middlewares/tokenValidator.js";
 import { urlValidator } from "../middlewares/urlValidator.js";
@@ -16,6 +16,6 @@ urlsRouter.get("/urls/:id", getUrl);
 
 urlsRouter.get("/urls/open/:shortUrl", openUrl);
 
-// urlsRouter.delete("/urls/:id", deleteUrl);
+urlsRouter.delete("/urls/:id", tokenValidator, deleteUrl);
 
 export default urlsRouter;

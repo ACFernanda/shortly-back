@@ -67,3 +67,30 @@ export async function openUrl(req, res) {
     res.status(500).send("Ocorreu um erro ao buscar a URL!");
   }
 }
+
+export async function deleteUrl(req, res) {
+  const { id } = req.params;
+  const { userId } = res.locals;
+
+  try {
+    const result = await db.query(`SELECT * FROM urls WHERE id=$1`, [id]);
+
+    if (!result.rows.length) {
+      return res.sendStatus(404);
+    }
+
+    if (result.rows[0].userId !== userId) {
+      return res.sendStatus(401);
+    }
+
+    await db.query(`DELETE FROM urls WHERE id=$1 AND "userId"=$2`, [
+      id,
+      userId,
+    ]);
+
+    res.sendStatus(204);
+  } catch (e) {
+    console.log(e);
+    res.status(500).send("Ocorreu um erro ao buscar a URL!");
+  }
+}
