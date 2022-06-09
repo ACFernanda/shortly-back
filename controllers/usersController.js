@@ -4,22 +4,27 @@ export async function getUser(req, res) {
   const { id } = req.params;
   const { userId } = res.locals;
 
-  if (id != userId) {
-    return res.status(401).send("aqui");
-  }
-
   try {
+    const checkUserExist = await db.query(`SELECT * FROM users WHERE id=$1`, [
+      id,
+    ]);
+    if (!checkUserExist.rows.length) {
+      return res.sendStatus(404);
+    }
+
+    if (id != userId) {
+      return res.sendStatus(401);
+    }
+
     const resultUser = await db.query(
       `
-      SELECT users.id, users.name, SUM(urls.visits) AS "visitCount" FROM users
-      JOIN urls ON users.id = urls."userId"
+      SELECT users.id, users.name, SUM(COALESCE(urls.visits, 0)) AS "visitCount" FROM users
+      LEFT JOIN urls ON users.id = urls."userId"
       WHERE users.id = $1
       GROUP BY users.id`,
       [id]
     );
-    if (!resultUser.rows.length) {
-      return res.sendStatus(404);
-    }
+
     const user = resultUser.rows[0];
 
     const resultShortenedUrls = await db.query(
